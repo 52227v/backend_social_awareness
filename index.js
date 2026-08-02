@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from 'express'
 import cors from 'cors'
 import authRoutes from "./routes/auth.js"
@@ -12,9 +14,9 @@ import fs from 'fs'; //file server
 import {v2 as cloudinary} from 'cloudinary';
           
 cloudinary.config({ 
-  cloud_name: 'dsbbepeox', 
-  api_key: '615239515114269', 
-  api_secret: '8l30kWL7eEIfNSnk_M8YQx9Y8jk' 
+  cloud_name: 'h3mxqzlk', 
+  api_key: '969533368667815', 
+  api_secret: '_Jalp6-nBwGpkeVTDJj8ggKtKRA' 
 });
 
 const uploadOnCloudinary = async (localFilePath, fileName) => {
@@ -43,9 +45,15 @@ const app = express ()
 
 app.use(express.json())
 app.use(cookieParser());
+/*app.use(cors(
+  { credentials: true, origin: 'https://alex_wilproject-frontend.onrender.com' }
+  )); */
 app.use(cors(
-  { credentials: true, origin: 'https://wilproject-frontend.onrender.com' }
-  )); 
+  { credentials: true, origin: [
+    "http://localhost:5173",
+    "https://alex_wilproject-frontend.onrender.com"]
+	}
+  ));  
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -96,6 +104,13 @@ app.use("/BackEnd/posts", postRoutes)
 app.use("/BackEnd/users", userRoutes)
 
 
-app.listen(8800, ()=>{
+/*app.listen(8800, ()=>{
     console.log("connected!")
 })
+*/
+
+const PORT = process.env.PORT || 8800;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});/
